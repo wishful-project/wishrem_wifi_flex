@@ -16,7 +16,7 @@ Requirements installation
 Installation
 ============
 
-        pip3 install -r requirements.txt
+	pip3 install -r requirements.txt
 	sudo python3 setup.py install
 
 Running examples
@@ -24,11 +24,18 @@ Running examples
 
 1. Local node:
 
-        cd node_app/
+	cd node_app/
 
-Change IP address of sub and pub to be the IP address of the broker 
+Change IP address of sub and pub to be the IP address of the broker (in yaml files)
 
-        sudo uniflex-agent --config ./config_slave_1.yaml
+	sudo uniflex-agent --config ./config_slave_1.yaml
+
+
+Alternative (TWIST testbed) install
+================
+
+Use ansible and documentation on repo:
+	git clone https://github.com/wishful-project/wishrem_nodes_ansible
 
 ## Acknowledgement
 The research leading to these results has received funding from the European
