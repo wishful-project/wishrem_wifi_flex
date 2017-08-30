@@ -24,6 +24,7 @@ Running examples
 
 1. Local node:
 
+
 	cd node_app/
 
 Change IP address of sub and pub to be the IP address of the broker (in yaml files)
