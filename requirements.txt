@@ -1,0 +1,11 @@
+pyshark
+git+https://github.com/wishful-project/stream_pipe
+git+https://github.com/wishful-project/python-tc
+git+https://github.com/phaethon/scapy.git#egg=scapy-python3
+git+https://github.com/uniflex/uniflex
+git+https://github.com/uniflex/sbi
+git+https://github.com/uniflex/module_net_linux
+git+https://github.com/uniflex/module_wifi
+git+https://github.com/wishful-project/pyre
+git+https://github.com/uniflex/app_discovery_pyre
+git+https://github.com/wishful-project/wishrem_rem_events

@@ -1,0 +1,27 @@
+## UniFlex Agent config file
+
+config:
+  name: 'Local_Controller'
+  info: 'local controller of wifi module flex'
+  iface: 'lo'
+##  type: 'slave'
+##  iface: 'ens33'
+  sub: "tcp://192.168.10.100:8990"
+  pub: "tcp://192.168.10.100:8989"
+
+control_applications:
+  myController:
+      file : local_controller.py
+      class_name : WifiFlexLocalController
+      kwargs : {}
+  discovery:
+      module : uniflex_app_discovery_pyre
+      class_name : PyreDiscoverySlaveModule
+      kwargs: { "iface":"lo", "groupName":"uniflex_1234" }
+
+modules:
+  wifi_flex:
+      module : uniflex_module_wifi_flex
+      class_name : WifiModuleFlex
+      devices : ['phy1']
+      kwargs : { "mode" : "", "ipaddr" : "192.168.6.1/24", "dnsserv" : "8.8.8.8", "country" : 'DE' }
