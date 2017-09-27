@@ -230,12 +230,12 @@ class WifiModuleFlex(uniflex_module_wifi.WifiModule):
 			else: 
 				self._rssi_results[chnel][ta] = rssi
 
-	def rssi_service_start(self):
+	def rssi_service_start(self, iface):
 		'''
-		Starts the RSSI sensing process on a monitor interface (self._moniface) using the PyShark module
+		Starts the RSSI sensing process on an interface (iface) using the PyShark module
 		'''
 		self._rssiServiceRunning = True
-		iface = self._moniface
+		#iface = self._moniface
 
 		if not self._packetSniffer:
 			self._packetSniffer = PacketSnifferPyShark(iface=iface)
@@ -249,6 +249,11 @@ class WifiModuleFlex(uniflex_module_wifi.WifiModule):
 		Stops the RSSI sensing process
 		'''
 		self._rssiServiceRunning = False
+		try:
+			self._packetSniffer.stop()
+			del self._packetSniffer
+		except Exception as e:
+			self.log.error("{} Failed, err_msg: {}".format(datetime.datetime.now(), e))
 
 	def configure_ap(self, config):
 		'''
@@ -302,6 +307,7 @@ class WifiModuleFlex(uniflex_module_wifi.WifiModule):
 				if self.is_connected(self._maniface):
 					apconnEvent = WiFiConfigureAPRsp(self._macad, self._apconfig)
 					self.send_event(apconnEvent)
+					self.rssi_service_start(self._maniface)
 				else:
 					self.configure_monitor()
 					self.log.error("AP setup failed")
@@ -317,6 +323,8 @@ class WifiModuleFlex(uniflex_module_wifi.WifiModule):
 		self.log.info("Stop WiFi AP")
 		self._daemons.stop_hostapd()
 		self._daemons.stop_dnsmasq()
+		self.rssi_service_stop()
+		self._rssi_results = {}
 		self.set_all_ifaces_down()
 
 	def configure_monitor(self):
@@ -337,7 +345,7 @@ class WifiModuleFlex(uniflex_module_wifi.WifiModule):
 			for chan in self._monchannels:
 				self._rssi_results[chan] = {}
 
-			self.rssi_service_start()
+			self.rssi_service_start(self._moniface)
 			self.set_channel(self._monchannels[self._current_chInd], self._moniface)
 			self._wmode = 'monitor'
 			self._timeInterval = 0.1
@@ -431,6 +439,7 @@ class WifiModuleFlex(uniflex_module_wifi.WifiModule):
 					self._apconfig['power'] = config['power']
 					connectionEvent = WiFiConfigureStationRsp(self._macad, config['ap'], self._apconfig)
 					self.send_event(connectionEvent)
+					self.rssi_service_start(self._maniface)
 				else:
 					self.configure_monitor()
 					self.log.error("Connection failed to network {}".format(config['ssid']))
@@ -445,6 +454,8 @@ class WifiModuleFlex(uniflex_module_wifi.WifiModule):
 		'''
 		self.log.info("Stopped WiFi managed")
 		self._daemons.dhclient_stop()
+		self.rssi_service_stop()
+		self._rssi_results = {}
 		self.set_all_ifaces_down()
 
 	def stop_mode(self):
