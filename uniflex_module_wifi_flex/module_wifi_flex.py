@@ -801,7 +801,7 @@ class WifiModuleFlex(uniflex_module_wifi.WifiModule):
 		Pull request for WiFi device capabilities reporting.
 		'''
 		node = self.localNode
-		if (node.uuid == event.receiverUuid):
+		if (node.uuid == event.receiverUuid and self._macad is not None):
 			try:
 				cap_event = WiFiCapabilities(self._macad, self._ap_capabilities)
 				self.send_event(cap_event)
