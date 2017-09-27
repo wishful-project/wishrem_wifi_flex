@@ -252,6 +252,7 @@ class WifiModuleFlex(uniflex_module_wifi.WifiModule):
 		try:
 			self._packetSniffer.stop()
 			del self._packetSniffer
+			self._packetSniffer = None
 		except Exception as e:
 			self.log.error("{} Failed, err_msg: {}".format(datetime.datetime.now(), e))
 
