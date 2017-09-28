@@ -16,7 +16,7 @@ Requirements installation
 Installation
 ============
 
-	pip3 install -r requirements.txt
+	pip3 install -r requirements.txt --upgrade
 	sudo python3 setup.py install
 
 Running examples
