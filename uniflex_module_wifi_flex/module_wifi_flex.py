@@ -271,7 +271,10 @@ class WifiModuleFlex(uniflex_module_wifi.WifiModule):
 			kwargs = {}
 			kwargs["control_socket_path"] = self._daemons.get_hostap_interface()
 			if config['channel']:
-				self.set_channel(config['channel'], self._maniface, **kwargs)
+				try:
+					self.set_channel(config['channel'], self._maniface, **kwargs)
+				except Exception as e:
+					self.log.error("{} Failed, err_msg: {}".format(datetime.datetime.now(), e))
 			if config['power']:
 				self.set_tx_power(int(config['power']), self._maniface)
 			self._apconfig['channel'] = config['channel']
@@ -347,7 +350,12 @@ class WifiModuleFlex(uniflex_module_wifi.WifiModule):
 				self._rssi_results[chan] = {}
 
 			self.rssi_service_start(self._moniface)
-			self.set_channel(self._monchannels[self._current_chInd], self._moniface)
+
+			try:
+				self.set_channel(self._monchannels[self._current_chInd], self._moniface)
+			except Exception as e:
+				self.log.error("{} Failed, err_msg: {}".format(datetime.datetime.now(), e))
+
 			self._wmode = 'monitor'
 			self._timeInterval = 0.1
 			self.timer.start(self._timeInterval)
@@ -518,7 +526,12 @@ class WifiModuleFlex(uniflex_module_wifi.WifiModule):
 					self.send_event(sampleEvent)
 
 				self._rssi_results[next_chNo] = {}
-				self.set_channel(next_chNo, self._moniface)
+
+				try:
+					self.set_channel(next_chNo, self._moniface)
+				except Exception as e:
+					self.log.error("{} Failed, err_msg: {}".format(datetime.datetime.now(), e))
+
 				self._current_chInd = next_channel_idx
 				self.timer.start(self._timeInterval)
 
