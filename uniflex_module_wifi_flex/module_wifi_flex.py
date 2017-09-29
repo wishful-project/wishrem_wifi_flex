@@ -328,7 +328,6 @@ class WifiModuleFlex(uniflex_module_wifi.WifiModule):
 		self._daemons.stop_hostapd()
 		self._daemons.stop_dnsmasq()
 		self.rssi_service_stop()
-		self._rssi_results = {}
 		self.set_all_ifaces_down()
 
 	def configure_monitor(self):
@@ -372,7 +371,6 @@ class WifiModuleFlex(uniflex_module_wifi.WifiModule):
 		'''
 		self.log.info("Stopped WiFi monitor")
 		self.rssi_service_stop()
-		self._rssi_results = {}
 		self.set_all_ifaces_down()
 
 	def connect_to_network(self, iface, ssid, bssid = None, chnel = None):
@@ -464,7 +462,6 @@ class WifiModuleFlex(uniflex_module_wifi.WifiModule):
 		self.log.info("Stopped WiFi managed")
 		self._daemons.dhclient_stop()
 		self.rssi_service_stop()
-		self._rssi_results = {}
 		self.set_all_ifaces_down()
 
 	def stop_mode(self):
