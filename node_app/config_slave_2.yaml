@@ -6,8 +6,8 @@ config:
   iface: 'lo'
 ##  type: 'slave'
 ##  iface: 'ens33'
-  sub: "tcp://194.149.128.218:8990"
-  pub: "tcp://194.149.128.218:8989"
+  sub: "tcp://192.168.10.100:8990"
+  pub: "tcp://192.168.10.100:8989"
 
 control_applications:
   myController:
