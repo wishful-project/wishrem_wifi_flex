@@ -235,6 +235,7 @@ class ap_daemons():
 		self.dhclient_stop()
 		self.dhclient_pid = "/var/run/dhclient-" + self.interface + ".pid" # reset since dhclient_stop sets it to None
 
+		'''		
 		gateway_interface = None
 		try:
 			[rcode, sout, serr] = self.run_command("route | grep '^default' | grep -o '[^ ]*$'")
@@ -251,6 +252,7 @@ class ap_daemons():
 				self.run_command(cmd_str)
 			except Exception as e:
 				self.log.error("{} Failed, err_msg: {}".format(datetime.datetime.now(), e))
+		'''
 
 		try:
 			cmd_str = "sudo dhclient -r " + self.interface + " -pf " + self.dhclient_pid + " && sudo dhclient " + self.interface + " -pf " + self.dhclient_pid
