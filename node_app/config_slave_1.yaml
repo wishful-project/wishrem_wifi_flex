@@ -24,4 +24,4 @@ modules:
       module : uniflex_module_wifi_flex
       class_name : WifiModuleFlex
       devices : ['phy0']
-      kwargs : { "mode" : "", "ipaddr" : "192.168.5.1/24", "dnsserv" : "8.8.8.8", "country" : 'DE' }
+      kwargs : { "mode" : "", "ipaddr" : "192.168.5.1/24", "dnsserv" : "8.8.8.8", "country" : 'DE', "pmon" : 2, "pman" : 5}

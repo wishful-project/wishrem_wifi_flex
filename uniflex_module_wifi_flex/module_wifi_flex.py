@@ -33,7 +33,7 @@ Provides control of PHY layer parameters, reporting sensing data and communicati
 '''
 
 class WifiModuleFlex(uniflex_module_wifi.WifiModule):
-	def __init__(self, mode, ipaddr, dnsserv, country):
+	def __init__(self, mode, ipaddr, dnsserv, country, pmon, pman):
 		'''
 		Initialization of the WiFi flex module
 		Args:
@@ -49,13 +49,15 @@ class WifiModuleFlex(uniflex_module_wifi.WifiModule):
 		self._ipaddr = ipaddr
 		self._dnsserv = dnsserv
 		self._country = country
+		self._pmon = float(pmon)
+		self._pman = float(pman)
 		self._moniface = None
 		self._maniface = None
 		self._w0 = None
 		self._macad = None
 		self._monchannels = None
 		self._ap_capabilities = None
-		self._timeInterval = 0.1
+		self._timeInterval = self._pmon
 		self._current_chInd = 0
 		self._packetSniffer = None
 		self._csa = False
@@ -297,7 +299,7 @@ class WifiModuleFlex(uniflex_module_wifi.WifiModule):
 					self._daemons.start_hostapd(config)
 
 					self._wmode = 'AP'
-					self._timeInterval = 1
+					self._timeInterval = self._pman
 					self.timer.start(self._timeInterval)
 
 					if config['power']:
@@ -356,7 +358,7 @@ class WifiModuleFlex(uniflex_module_wifi.WifiModule):
 				self.log.error("{} Failed, err_msg: {}".format(datetime.datetime.now(), e))
 
 			self._wmode = 'monitor'
-			self._timeInterval = 0.1
+			self._timeInterval = self._pmon
 			self.timer.start(self._timeInterval)
 			configuredMonitorEvent = WiFiConfigureMonitorRsp(self._macad)
 			self.send_event(configuredMonitorEvent)
@@ -437,7 +439,7 @@ class WifiModuleFlex(uniflex_module_wifi.WifiModule):
 				if (connectionSuccess):
 					self._daemons.dhclient_renew()
 					self._wmode = 'station'
-					self._timeInterval = 1
+					self._timeInterval = self._pman
 					self.timer.start(self._timeInterval)
 
 					self._apconfig['ssid'] = config['ssid']
