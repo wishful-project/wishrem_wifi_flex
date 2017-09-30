@@ -253,7 +253,7 @@ class ap_daemons():
 				self.log.error("{} Failed, err_msg: {}".format(datetime.datetime.now(), e))
 
 		try:
-			cmd_str = "sudo dhclient -r " + self.interface + " -pf " + self.dhclient_pid + " && sudo dhclient " + self.interface + " -pf " + self.dhclient_pid + " -v"
+			cmd_str = "sudo dhclient -r " + self.interface + " -pf " + self.dhclient_pid + " && sudo dhclient " + self.interface + " -pf " + self.dhclient_pid + " -nw"
 			print(cmd_str)
 			self.run_command(cmd_str)
 		except Exception as e:
